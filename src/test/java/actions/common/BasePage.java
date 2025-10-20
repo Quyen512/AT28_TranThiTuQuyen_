@@ -20,8 +20,6 @@ public class BasePage {
     protected Actions actions;
     protected JavascriptExecutor js;
 
-    //========================= Locator & Element handling =========================//
-
     public By getXpath(String xpath) {
         return By.xpath(xpath);
     }
@@ -49,8 +47,6 @@ public class BasePage {
     public WebElement getDynamicElement(WebDriver driver, String xpath, String... params) {
         return driver.findElement(getDynamicXpath(xpath, params));
     }
-
-    //========================= Click / Input actions =========================//
 
     public void clickToElement(WebDriver driver, String xpath) {
         waitForElementClickable(driver, xpath);
@@ -95,9 +91,7 @@ public class BasePage {
     public void clickToElementByJS(WebDriver driver, String xpath, String... params) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", getDynamicElement(driver, xpath, params));
     }
-
-    //========================= Wait & Highlight =========================//
-
+    
     public void waitForElementIsVisible(WebDriver driver, String xpath) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
         wait.until(ExpectedConditions.visibilityOf(getElement(driver, xpath)));
@@ -133,8 +127,6 @@ public class BasePage {
             Thread.sleep(seconds * 1000L);
         } catch (InterruptedException ignored) {}
     }
-
-    //========================= Hover / Mouse actions =========================//
 
     public void hoverOverElement(WebDriver driver, String xpath) {
         actions = new Actions(driver);
@@ -181,8 +173,6 @@ public class BasePage {
         getDynamicElement(driver, xpath, params).sendKeys(key);
     }
 
-    //========================= Get element info =========================//
-
     public String getTextElement(WebDriver driver, String xpath) {
         waitForElementIsVisible(driver, xpath);
         return getElement(driver, xpath).getText().trim();
@@ -209,8 +199,6 @@ public class BasePage {
         return getElements(driver, xpath, params).size();
     }
 
-    //========================= Display / Visibility checking =========================//
-
     public boolean isDisplayElement(WebDriver driver, String xpath) {
         return getElement(driver, xpath).isDisplayed();
     }
@@ -228,8 +216,6 @@ public class BasePage {
         List<WebElement> elements = getElements(driver, xpath, params);
         return !elements.isEmpty() && elements.stream().allMatch(WebElement::isDisplayed);
     }
-
-    //========================= Page navigation =========================//
 
     public void getPageUrl(WebDriver driver, String url) {
         driver.get(url);
@@ -259,8 +245,6 @@ public class BasePage {
         driver.navigate().refresh();
     }
 
-    //========================= Alert handling =========================//
-
     public void waitForAlertPresence(WebDriver driver) {
         wait = new WebDriverWait(driver, Duration.ofSeconds(GlobalVariables.SHORT_TIMEOUT));
         wait.until(ExpectedConditions.alertIsPresent());
@@ -281,8 +265,6 @@ public class BasePage {
     public void enterTextToAlert(WebDriver driver, String text) {
         driver.switchTo().alert().sendKeys(text);
     }
-
-    //========================= Window / Tab switching =========================//
 
     public void switchWindowByID(WebDriver driver, String parentID) {
         Set<String> allWindows = driver.getWindowHandles();
@@ -313,8 +295,6 @@ public class BasePage {
         driver.switchTo().window(parentID);
     }
 
-    //========================= Dropdown (Select tag) =========================//
-
     public void selectItemInDefaultDropdown(WebDriver driver, String xpath, String itemText) {
         new Select(getElement(driver, xpath)).selectByVisibleText(itemText);
     }
@@ -339,8 +319,6 @@ public class BasePage {
         return new Select(getDynamicElement(driver, xpath, params)).isMultiple();
     }
 
-    //========================= Checkbox / Radio =========================//
-
     public void checkToCheckboxOrRadio(WebDriver driver, String xpath) {
         WebElement element = getElement(driver, xpath);
         if (!element.isSelected()) element.click();
@@ -361,8 +339,6 @@ public class BasePage {
         if (element.isSelected()) element.click();
     }
 
-    //========================= Wait / Frame / Timeouts =========================//
-
     public void setImplicitTime(WebDriver driver, long timeInSeconds) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeInSeconds));
     }
@@ -374,8 +350,6 @@ public class BasePage {
     public void switchToDefaultContent(WebDriver driver) {
         driver.switchTo().defaultContent();
     }
-
-    //========================= Scroll Into View =========================//
 
     public void scrollIntoView(WebDriver driver, String xpath, String... params) {
         WebElement el = getDynamicElement(driver, xpath, params);
