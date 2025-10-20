@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-/**
- * BasePage - Class cơ sở cho toàn bộ Page Object
- * Chứa toàn bộ hàm xử lý Locator, Element, Actions, Alert, Frame, Dropdown, Tab...
- */
 public class BasePage {
 
     protected WebDriverWait wait;
